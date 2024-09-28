@@ -1,0 +1,42 @@
+void setup() {
+  // put your setup code here, to run once:
+  volatile char*dirf=0x30,*dirk=0x107,x1,x2,x3,x4;
+  *dirf=0xff;
+  *dirk=0x00;
+  volatile char *outx=0x31,*ink=0x106;
+  volatile char i;
+  while(1)
+  {
+    x1=*ink;
+    x2=*ink;
+    x3=*ink;
+    x4=*ink;
+    
+    if ((x2 & 0x02)==0x02)
+    {
+      for(i=0;i<8;i=i+2)
+      {
+        *outx = 0x01<<i;
+        for(volatile long  int x=0;x<200000;x++);
+      }
+    }
+    else if ((x3 & 0x04)==0x04)
+    {
+      for(i=1;i<8;i=i+2)
+      {
+        *outx = 0x01<<i;
+        for(volatile long  int x=0;x<200000;x++);
+      }
+    }
+      else if (((x1 & 0x01)==0x01 )&& ((x4 & 0x80)==0x80))
+    {
+
+        *outx = 0x10;
+        for(volatile long  int x=0;x<200000;x++);
+        *outx = 0x00;
+
+    }
+
+  } 
+
+}
