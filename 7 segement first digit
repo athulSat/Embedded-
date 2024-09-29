@@ -1,4 +1,4 @@
-link:(https://wokwi.com/projects/410364330207919105)
+link:https://wokwi.com/projects/410364330207919105
 void setup() {
  volatile char*dirf=0x30;
 *dirf=0xff;
