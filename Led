@@ -1,0 +1,31 @@
+link:https://wokwi.com/projects/382113724610555905
+void setup() {
+  // put your setup code here, to run once:
+  volatile char *dirf,*dirk,*outf,*ink,x;
+  dirf=0x30;
+  *dirf=0xff;
+  outf=0x31;
+  dirk=0x107;
+  *dirk=0x00;
+  ink=0x106;
+  while(1)
+  {
+    x=*ink;
+    if((x & 0x01)==0x01)
+    {
+      for(long i=7;i>=0;i--)
+      {
+        *outf=0x01<<i;
+        delay(1000); 
+
+      }  
+    
+   }
+}
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+
+}
