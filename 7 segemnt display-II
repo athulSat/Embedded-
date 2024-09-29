@@ -1,0 +1,29 @@
+link: https://wokwi.com/projects/381828892051938305
+void setup() {
+  volatile char *dirf=0x30,*dirk=0x107;
+  *dirf=0xFF;
+  *dirk=0xFF;
+  volatile char *outf=0x31,*outk=0x108;
+   const char arr[]={0X3F,0X06,0X5B,0X4F,0X66,0X6D,0X7D,0X07,0X7F,0X6F};
+  long i,j;
+  *outk=0X3F;
+  *outf=0X3F;
+  for(i=0;i<10;i++)
+  {
+    *outf=arr[i];
+    delay(100);
+    for(j=0;j<10;j++)
+    {
+
+    *outk=arr[j];
+    delay(1000);
+    
+    }
+    
+  }
+
+}
+
+void loop() {
+
+}
