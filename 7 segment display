@@ -1,3 +1,4 @@
+link: https://wokwi.com/projects/410334685198992385
 void setup() {
  volatile char*dirf=0x30;
 *dirf=0xff;
