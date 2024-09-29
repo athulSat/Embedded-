@@ -1,0 +1,48 @@
+link: https://wokwi.com/projects/410391069663055873
+void setup() {
+  // put your setup code here, to run once:
+  volatile char *dirf=0x30,*dirk=0x107,*dirc=0x27,*dirA=0x21;
+  *dirf=0xFF;
+  *dirk=0xFF;
+  *dirc=0xFF;
+  *dirA=0xFF;
+  volatile char *outf=0x31,*outk=0x108,*outc=0x28,*outA=0x22;
+  const char arr[]={0X3F,0X06,0X5B,0X4F,0X66,0X6D,0X7D,0X07,0X7F,0X6F};
+  *outk=0X3F;
+  *outf=0X3F;
+  *outc=0X3F;
+  *outA=0X3F;
+  for (int num = 0; num <= 9999; num++) {
+        int thousands = num / 1000;
+        int hundreds = (num / 100) % 10;
+        int tens = (num / 10) % 10;
+        int units = num % 10;
+
+        
+        if (thousands > 0) {
+            *outf = arr[thousands];
+        } else {
+            
+            *outf = 0x00; 
+        }
+        if (hundreds > 0) {
+            *outf = arr[hundreds];
+        } else {
+           
+            *outk = 0x00;
+        }
+        if (tens > 0) {
+            *outc = arr[tens];
+        } else {
+           
+            *outc = 0x00; 
+        }
+        *outA = arr[units];        
+        delay(1000); 
+    }
+}
+  
+
+void loop() {
+
+}
