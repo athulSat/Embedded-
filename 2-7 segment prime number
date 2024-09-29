@@ -12,25 +12,22 @@ void setup() {
    for (int num = 2; num <= 100; num++) {
     int isPrime = 1; // Assume num is prime
 
-    // Check if num is prime
     for (int i = 2; i * i <= num; i++) {
       if (num % i == 0) {
         isPrime = 0; // Not a prime
         break;
       }
     }
-
-    // If num is prime, display it
     if (isPrime) {
       if (num < 10) {
-        *outk = arr[num]; // Display single-digit primes
-        delay(1000); // Show single-digit for 1 second
+        *outk = arr[num];
+        delay(1000); 
       } else {
-        // Handle two-digit primes (display tens and units separately)
-        *outk = arr[num  %10]; // Tens place
-        delay(100); // Show tens for 1 second
-        *outf = arr[num / 10]; // Units place
-        delay(1000); // Show units for 1 second
+
+        *outk = arr[num  %10]; 
+        delay(100); 
+        *outf = arr[num / 10];
+        delay(1000); 
         delay(1000);
       }
     }
