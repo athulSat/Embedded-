@@ -1,0 +1,56 @@
+link: https://wokwi.com/projects/410367190406847489
+void setup() {
+ volatile char*dirf=0x30;
+*dirf=0xff;
+ volatile char *outx=0x31;
+
+const char map[10]= {
+    0x3F, // 0
+    0x06, // 1
+    0x5B, // 2
+    0x4F, // 3
+    0x66, // 4
+    0x6D, // 5
+    0x7D, // 6
+    0x07, // 7
+    0x7F, // 8
+    0x6F  // 9
+};
+  
+  while(1)
+  {
+
+   int N = 10;
+
+    for (int i = 1; i <= N; i++) {
+        if (isPrime(i)) {
+             delay();
+             *outx = map[i];
+        }
+    }
+
+    delay();
+    }
+}
+
+void delay()
+{
+  for(volatile long  int x=0;x<200000;x++);
+}
+
+void loop()
+{
+  
+}
+bool isPrime(int n)
+{
+    if (n == 1 || n == 0)
+        return false;
+
+   
+    for (int i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0)
+            return false;
+    }
+    return true;
+}
