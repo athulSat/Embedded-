@@ -1,0 +1,42 @@
+link: https://wokwi.com/projects/410379141979982849
+void setup() {
+  // put your setup code here, to run once:
+  volatile char *dirf=0x30,*dirk=0x107;
+  *dirf=0xFF;
+  *dirk=0xFF;
+  volatile char *outf=0x31,*outk=0x108;
+  const char arr[]={0X3F,0X06,0X5B,0X4F,0X66,0X6D,0X7D,0X07,0X7F,0X6F};
+  long i,j;
+  *outk=0X3F;
+  *outf=0X3F;
+   for (int num = 2; num <= 100; num++) {
+    int isPrime = 1; // Assume num is prime
+
+    // Check if num is prime
+    for (int i = 2; i * i <= num; i++) {
+      if (num % i == 0) {
+        isPrime = 0; // Not a prime
+        break;
+      }
+    }
+
+    // If num is prime, display it
+    if (isPrime) {
+      if (num < 10) {
+        *outk = arr[num]; // Display single-digit primes
+        delay(1000); // Show single-digit for 1 second
+      } else {
+        // Handle two-digit primes (display tens and units separately)
+        *outk = arr[num  %10]; // Tens place
+        delay(100); // Show tens for 1 second
+        *outf = arr[num / 10]; // Units place
+        delay(1000); // Show units for 1 second
+        delay(1000);
+      }
+    }
+  }
+}
+
+void loop() {
+
+}
