@@ -1,0 +1,50 @@
+link:https://wokwi.com/projects/410364330207919105
+void setup() {
+ volatile char*dirf=0x30;
+*dirf=0xff;
+ volatile char *outx=0x31;
+
+const char map[10]= {
+    0x3F, // 0
+    0x06, // 1
+    0x5B, // 2
+    0x4F, // 3
+    0x66, // 4
+    0x6D, // 5
+    0x7D, // 6
+    0x07, // 7
+    0x7F, // 8
+    0x6F  // 9
+};
+  
+  while(1)
+  {
+
+    int number = 12345; 
+    int f= firstDigit(number);  
+    for(volatile char i=0;i<10;i++)
+    {
+    *outx = map[f]; 
+    delay();
+    }
+  }
+}
+void delay()
+{
+  for(volatile long  int x=0;x<200000;x++);
+}
+
+void loop()
+{
+  
+}
+int firstDigit(int n)
+{
+  int rem=0;
+  while(n)
+  {
+    rem=n%10;
+    n=n/10;
+  }
+  return rem;
+}
