@@ -1,0 +1,31 @@
+link: https://wokwi.com/projects/410429937207478273
+void setup() {
+  // put your setup code here, to run once:
+  volatile char *dirf=0x30,*dirk=0x107;
+  *dirf=0xFF;
+  *dirk=0x00;
+}
+void loop() {
+  volatile char *outf=0x31,*ink=0x106,x,i(0);
+  const char arr[]={0X3F,0X06,0X5B,0X4F,0X66,0X6D,0X7D,0X07,0X7F,0X6F};
+   while (1) {
+        x = *ink; 
+        if ((x & 0x40) == 0x40) {
+          for(char i=0;i<10;i++)
+          {
+          *outf=arr[i];
+          delay(1000);
+          }
+          for(char i=9;i>=0;i--)
+          {
+          
+          *outf=arr[i];
+          delay(1000);
+          
+        }
+        }
+      
+
+        }
+    
+        } 
