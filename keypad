@@ -1,0 +1,46 @@
+link :https://wokwi.com/projects/382399259924074497
+void setup() {
+volatile char *dirk=0x107, *dirf=0x30, *dira=0x21;
+volatile char *outf=0x31, *outa=0x22, *ink=0x106;
+const char arr[16] = {0x3F, 0x06, 0x5B, 0x4F, 0x66,0x6D, 0x7D, 0x07,0x7F,0x6F, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71  };
+    *dirf = 0x0F; 
+    *dirk = 0x00; 
+    *dira = 0xFF;
+    while (1) {
+        for (long i = 0; i < 4; i++) {
+            *outf = 1 << i;
+            char x = *ink;   
+            if (x != 0) {
+
+                switch (i) {
+                    case 0: 
+                        if (x & 0x01) *outa= arr[1]; 
+                        if (x & 0x02) *outa=arr[2]; 
+                        if (x & 0x04) *outa=arr[3]; 
+                        if (x & 0x08) *outa=arr[10]; 
+                        break;
+                    case 1: 
+                        if (x & 0x01) *outa =arr[4]; 
+                        if (x & 0x02) *outa=arr[5]; 
+                        if (x & 0x04) *outa=arr[6]; 
+                        if (x & 0x08) *outa=arr[11]; 
+                        break;
+                    case 2: 
+                        if (x & 0x01)  *outa= arr[7]; 
+                        if (x & 0x02)  *outa= arr[8]; 
+                        if (x & 0x04)  *outa= arr[9]; 
+                        if (x & 0x08)  *outa= arr[12];
+                        break;
+                    case 3:
+                        if (x & 0x02)  *outa= arr[0]; 
+                        if (x & 0x08)  *outa= arr[13]; 
+                        break;
+                }
+                
+            }
+        }
+    }
+}
+
+void loop() {
+}
