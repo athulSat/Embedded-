@@ -1,0 +1,51 @@
+link:https://wokwi.com/projects/410696141489107969
+void setup() {
+    volatile char *dirf =0x30,*dirk = 0x107; 
+    volatile char *outf = 0x31;
+    *dirf = 0xFF;
+    *dirk = 0x0F; 
+    const char map[10] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F};
+    while (1) {
+        for (char dig1 = 0; dig1 < 10; dig1++) {
+            for (char dig2 = 0; dig2 < 10; dig2++) { 
+                for (char dig3 = 0; dig3 < 10; dig3++) {
+                    for (char dig4 = 0; dig4 < 10; dig4++) {
+                        for (char i = 0; i < 100; i++) {
+                            *dirk = 0x01;  
+                            *outf = map[dig4]; 
+                            delay1(1);
+                            
+                            *outf = 0x00; 
+                            *dirk = 0x02; 
+                            *outf = map[dig3];
+                            delay1(1);
+                            
+                            *outf = 0x00; 
+                            *dirk = 0x04; 
+                            *outf = map[dig2]; 
+                            delay1(1);
+                            
+                            *outf = 0x00;
+                            *dirk = 0x08; 
+                            *outf = map[dig1]; 
+                            delay1(1);
+                            
+                            *outf = 0x00; 
+                        }
+                    }
+                }                 
+            }
+        }    
+    }
+}
+void delay1(int num) {
+    for (volatile int j = 0; j < num; j++) {
+        for (volatile int i = 0; i < 500; i++);  
+    }
+}
+
+
+void loop() {
+    // Not used
+}
+
