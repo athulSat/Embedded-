@@ -1,0 +1,91 @@
+link:https://wokwi.com/projects/410830638404136961
+void setup() {
+    volatile char *dirk = (char*)0x107; // Input port for keys
+    volatile char *dirf = (char*)0x30;  // Output port for digit control
+    volatile char *dira = (char*)0x21;  // Output port for segments
+    volatile char *outf = (char*)0x31;  // Digit control output
+    volatile char *outa = (char*)0x22;  // Segment output
+    volatile char *ink = (char*)0x106;  // Input for keys
+    volatile char *dirc = (char*)0x27;  // 7 Segment Controlling Port 
+
+    const char map[16] = {
+        0x3F, 0x06, 0x5B, 0x4F, 0x66, 
+        0x6D, 0x7D, 0x07, 0x7F, 0x6F, 
+        0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71
+    };
+
+    *dirf = 0x0F; // Configure port for digit control
+    *dirk = 0x00; // Set input for keypad
+    *dira = 0xFF; // Set output for segments
+
+    char firstNumber(0),secondNumber(0),currentNumber (0),state(0);
+
+    while (1) {
+        for (char i = 0; i < 4; i++) {
+            *outf = 1 << i; // Activate current digit
+            char x = *ink;   
+
+            if (x != 0) {
+                switch (i) {
+                    case 0: 
+                        if (x & 0x01) currentNumber += 1; 
+                        if (x & 0x02) currentNumber += 2; 
+                        if (x & 0x04) currentNumber += 3; 
+                        break;
+                    case 1: 
+                        if (x & 0x01) currentNumber += 4; 
+                        if (x & 0x02) currentNumber += 5; 
+                        if (x & 0x04) currentNumber += 6; 
+                        break;
+                    case 2: 
+                        if (x & 0x01) currentNumber += 7; 
+                        if (x & 0x02) currentNumber += 8; 
+                        if (x & 0x04) currentNumber += 9; 
+                        break;
+                    case 3:
+                        if (x & 0x02) currentNumber += 0; 
+                        if (x & 0x08) { 
+                            if (state == 0) {
+                                firstNumber = currentNumber; 
+                                currentNumber = 0; 
+                                state = 1; 
+                            } else {
+                                secondNumber = currentNumber; 
+                                currentNumber = 0;
+                                state = 0; 
+                                int sum = firstNumber + secondNumber; 
+                                displayNumber(sum, map, outa, dirc); 
+                            }
+                        }
+                        break;
+                }
+                delay(500); // Simple debounce delay
+            }
+        }
+    }
+}
+
+void displayNumber(int sum, const char map[], volatile char *outa, volatile char *dirc) {
+   for (char i = 0; i < 10000; i++) 
+  {
+    *dirc = 0x01;  
+    *outa = map[sum%10]; 
+    delay(1);
+    *outa = 0x00; 
+    *dirc = 0x02; 
+    *outa = map[sum/10];
+    delay(1);
+    *outa = 0x00; 
+    }
+  }
+
+
+void delay(int num) {
+    for (volatile int j = 0; j < num; j++) {
+        for (volatile int i = 0; i < 500; i++);  
+    }
+}
+
+void loop() {
+
+}
