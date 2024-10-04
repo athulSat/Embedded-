@@ -1,0 +1,84 @@
+link: https://wokwi.com/projects/410698311690966017
+void setup() {
+    volatile char *dirk = 0x107; // Input port for keys
+    volatile char *dirf = 0x30;  // Output port for digit control
+    volatile char *dira = 0x21;  // Output port for segments
+    volatile char *outf = 0x31;  // Digit control output
+    volatile char *outa = 0x22;  // Segment output
+    volatile char *ink = 0x106;  // Input for keys
+    volatile char *dirc = 0x27;  // 7 Segment Controlling Port 
+
+    const char map[16] = {0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07, 0x7F, 0x6F}; 
+
+    *dirf = 0x0F; 
+    *dirk = 0x00; // Set input for keypad
+    *dira = 0xFF; // Set output for segments
+
+    char arr[4] = {0, 0, 0, 0}; // Array to hold the digits
+    int count = 0; // Count of digits entered
+
+    while (1) {
+        for (char i = 0; i < 4; i++) {
+            *outf = 1 << i; 
+            char x = *ink;   
+            if (x != 0) {
+                if (count < 4) {
+                    switch (i) {
+                        case 0: 
+                            if (x & 0x01) arr[count++] = 1; 
+                            if (x & 0x02) arr[count++] = 2; 
+                            if (x & 0x04) arr[count++] = 3; 
+                            break;
+                        case 1: 
+                            if (x & 0x01) arr[count++] = 4; 
+                            if (x & 0x02) arr[count++] = 5; 
+                            if (x & 0x04) arr[count++] = 6; 
+                            break;
+                        case 2: 
+                            if (x & 0x01) arr[count++] = 7; 
+                            if (x & 0x02) arr[count++] = 8; 
+                            if (x & 0x04) arr[count++] = 9; 
+                            break;
+                        case 3:
+                            if (x & 0x02) arr[count++] = 0; 
+                            if (x & 0x08) arr[count++] = 13; 
+                            break;
+                    }
+                    delay(500); 
+                }
+            }
+            if (count == 4) {
+                  for (char i = 0; i < 10000; i++) {
+                            *dirc = 0x01;  
+                            *outa = map[arr[3]]; 
+                            delay(1);
+                            
+                            *outa = 0x00; 
+                            *dirc = 0x02; 
+                            *outa = map[arr[2]];
+                            delay(1);
+                            
+                            *outa = 0x00; 
+                            *dirc = 0x04; 
+                            *outa = map[arr[1]]; 
+                            delay(1);
+                            
+                            *outa = 0x00;
+                            *dirc = 0x08; 
+                            *outa = map[arr[0]]; 
+                            delay(1);
+                            
+                            *outa = 0x00; 
+                        }
+                count = 0; 
+            }
+        }
+    }
+}
+void delay(int num) {
+    for (volatile int j = 0; j < num; j++) {
+        for (volatile int i = 0; i < 500; i++);  
+    }
+}
+void loop() {
+}
